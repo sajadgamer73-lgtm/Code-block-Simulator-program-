@@ -1,0 +1,338 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sajad C++ Studio</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;800&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#101522;color:#e8edf7;font-family:Tajawal}
+header{background:#182235;padding:17px 22px;border-bottom:1px solid #33415b}
+header h1{margin:0;color:#63d8d0;font-size:22px}
+header p{margin:5px 0 0;color:#91a1bb;font-size:13px}
+nav{display:flex;gap:8px;flex-wrap:wrap;background:#202c41;padding:10px}
+button,select{border:0;border-radius:6px;padding:10px 15px;cursor:pointer;font-family:Tajawal;font-weight:bold}
+button{background:#34445f;color:white}
+button:hover{filter:brightness(1.2)}
+.run{background:#54d6a0;color:#071a15}
+main{max-width:1200px;margin:20px auto;padding:12px}
+.layout{display:grid;grid-template-columns:1fr 240px;gap:15px}
+.panel{background:#182235;border:1px solid #33415b;border-radius:10px;overflow:hidden;margin-bottom:15px}
+.title{padding:12px 15px;background:#202e45;color:#63d8d0;font-weight:bold}
+.editor{display:flex;direction:ltr;background:#0c1220;min-height:390px}
+.numbers{padding:15px 10px;color:#65748d;background:#111a2b;text-align:right;font:13px/1.8 'Fira Code';white-space:pre}
+textarea{flex:1;resize:vertical;min-width:0;min-height:390px;border:0;outline:0;padding:15px;background:#0c1220;color:#d9e6ff;font:13px/1.8 'Fira Code';direction:ltr;text-align:left;tab-size:4}
+.output{background:#090e18;min-height:145px;padding:15px;direction:ltr;text-align:left;white-space:pre-wrap;font:13px/1.8 'Fira Code';color:#a5f3c4}
+.sidebar button{width:100%;text-align:right;margin-bottom:7px;background:#263750}
+.sidebar h3{color:#63d8d0}
+.status{padding:10px;color:#9baac2;font-size:12px}
+.filebar{padding:9px;background:#131e30;color:#c3d1e7;font-size:13px}
+footer{text-align:center;color:#8392a9;padding:20px}
+@media(max-width:750px){.layout{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:1fr 1fr;gap:8px}.editor{min-height:330px}.editor textarea{min-height:330px}}
+</style>
+</head>
+<body>
+
+<header>
+<h1>⚡ Sajad C++ Studio</h1>
+<p>C++ Programming Environment | CodeBlocks Simulator</p>
+</header>
+
+<nav>
+<button onclick="newFile()">＋ ملف جديد</button>
+<button onclick="downloadFile()">حفظ الكود</button>
+<button onclick="loadFile()">فتح ملف</button>
+<button class="run" onclick="runCode()">▶ RUN</button>
+<button onclick="clearOutput()">مسح النتائج</button>
+<select id="language">
+<option>C++</option>
+<option>C</option>
+</select>
+</nav>
+
+<main>
+<div class="layout">
+
+<section>
+<div class="panel">
+<div class="filebar">📄 main.cpp</div>
+<div class="editor">
+<div class="numbers" id="numbers">1</div>
+<textarea id="code" spellcheck="false" oninput="updateLines()" onscroll="syncLines()">#include <iostream>
+using namespace std;
+
+int main() {
+
+    cout << "Hello Sajad Mushtaq!" << endl;
+
+    return 0;
+}</textarea>
+</div>
+<div class="status" id="status">Ready | C++ Studio</div>
+</div>
+
+<div class="panel">
+<div class="title">Terminal / Output</div>
+<div class="output" id="output">نتائج البرنامج تظهر هنا...</div>
+</div>
+</section>
+
+<aside class="sidebar">
+<div class="panel" style="padding:12px">
+<h3>أمثلة C++</h3>
+<button onclick="example('hello')">Hello World</button>
+<button onclick="example('sum')">جمع عددين</button>
+<button onclick="example('if')">If / Else</button>
+<button onclick="example('loop')">For Loop</button>
+<button onclick="example('while')">While Loop</button>
+<button onclick="example('array')">Arrays</button>
+<button onclick="example('function')">Functions</button>
+<button onclick="example('input')">User Input</button>
+</div>
+
+<div class="panel" style="padding:12px">
+<h3>معلومات</h3>
+<p>لغة البرمجة: C++</p>
+<p>المحرر: C++ Studio</p>
+<p>المطور: Sajad Mushtaq</p>
+</div>
+</aside>
+
+</div>
+</main>
+
+<footer>
+Designed & Developed by Sajad Mushtaq © 2026
+</footer>
+
+<script>
+const code=document.getElementById("code");
+const output=document.getElementById("output");
+
+function updateLines(){
+let count=code.value.split("\n").length;
+document.getElementById("numbers").textContent=
+Array.from({length:count},(_,i)=>i+1).join("\n");
+}
+
+function syncLines(){
+document.getElementById("numbers").scrollTop=code.scrollTop;
+}
+
+const examples={
+hello:`#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Hello World!" << endl;
+    cout << "Designed by Sajad Mushtaq";
+    return 0;
+}`,
+
+sum:`#include <iostream>
+using namespace std;
+
+int main() {
+    int a = 10;
+    int b = 20;
+    int sum = a + b;
+
+    cout << "Sum = " << sum << endl;
+
+    return 0;
+}`,
+
+if:`#include <iostream>
+using namespace std;
+
+int main() {
+    int age = 20;
+
+    if (age >= 18) {
+        cout << "Adult";
+    }
+    else {
+        cout << "Young";
+    }
+
+    return 0;
+}`,
+
+loop:`#include <iostream>
+using namespace std;
+
+int main() {
+    for(int i = 1; i <= 5; i++) {
+        cout << i << endl;
+    }
+
+    return 0;
+}`,
+
+while:`#include <iostream>
+using namespace std;
+
+int main() {
+    int i = 1;
+
+    while(i <= 5) {
+        cout << i << endl;
+        i++;
+    }
+
+    return 0;
+}`,
+
+array:`#include <iostream>
+using namespace std;
+
+int main() {
+    int numbers[5] = {10,20,30,40,50};
+
+    for(int i = 0; i < 5; i++) {
+        cout << numbers[i] << endl;
+    }
+
+    return 0;
+}`,
+
+function:`#include <iostream>
+using namespace std;
+
+void hello() {
+    cout << "Welcome to C++";
+}
+
+int main() {
+    hello();
+    return 0;
+}`,
+
+input:`#include <iostream>
+using namespace std;
+
+int main() {
+    int number;
+
+    cout << "Enter a number: ";
+    cin >> number;
+
+    cout << "Number = " << number;
+
+    return 0;
+}`
+};
+
+function example(name){
+code.value=examples[name];
+updateLines();
+output.textContent="تم تحميل المثال: "+name;
+}
+
+function newFile(){
+if(!confirm("إنشاء ملف جديد؟"))return;
+code.value="";
+output.textContent="ملف جديد جاهز.";
+updateLines();
+}
+
+function downloadFile(){
+let blob=new Blob([code.value],{type:"text/plain"});
+let a=document.createElement("a");
+a.href=URL.createObjectURL(blob);
+a.download="main.cpp";
+a.click();
+URL.revokeObjectURL(a.href);
+}
+
+function loadFile(){
+let input=document.createElement("input");
+input.type="file";
+input.accept=".cpp,.txt,.c";
+input.onchange=()=>{
+let reader=new FileReader();
+reader.onload=()=>{
+code.value=reader.result;
+updateLines();
+output.textContent="تم فتح الملف.";
+};
+reader.readAsText(input.files[0]);
+};
+input.click();
+}
+
+function clearOutput(){
+output.textContent="";
+}
+
+function runCode(){
+
+let source=code.value;
+output.textContent="";
+
+if(!source.trim()){
+output.textContent="Error: لا يوجد كود.";
+return;
+}
+
+if(!source.includes("main")){
+output.textContent="Error: main() function not found.";
+return;
+}
+
+if(!source.includes("cout")){
+output.textContent="تم فحص الكود، لا توجد أوامر طباعة cout.";
+return;
+}
+
+let variables={};
+let lines=source.split("\n");
+
+// محاكاة تعريف المتغيرات البسيطة
+lines.forEach(line=>{
+let match=line.match(/(?:int|double|float|string|char)\s+(\w+)\s*=\s*(?:"([^"]*)"|(-?\d+(?:\.\d+)?))/);
+if(match){
+variables[match[1]]=match[2]!==undefined?match[2]:Number(match[3]);
+}
+});
+
+// محاكاة cout للنصوص والمتغيرات
+let result="";
+let matches=source.match(/cout\s*<<[\s\S]*?;/g)||[];
+
+matches.forEach(statement=>{
+let content=statement.replace(/^cout\s*<</,"").replace(/;$/,"");
+let parts=content.split("<<");
+
+parts.forEach(part=>{
+part=part.trim();
+
+if(part==="endl"){
+result+="\n";
+}
+else if(/^".*"$/.test(part)){
+result+=part.slice(1,-1);
+}
+else if(variables[part]!==undefined){
+result+=variables[part];
+}
+else if(part==="true"){
+result+="1";
+}
+else if(part==="false"){
+result+="0";
+}
+});
+});
+
+output.textContent=result||"انتهت المحاكاة. لا توجد مخرجات قابلة للعرض.";
+document.getElementById("status").textContent=
+"Finished | Simulation completed";
+}
+
+updateLines();
+</script>
+</body>
+</html>
